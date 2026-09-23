@@ -1,50 +1,78 @@
-# 🏛️ FED-EDU — ORG PROFILE
+# Surf FED
 
-### The Sovereign AI, Coding & Tech Space for All Black Men
+Surf FED is a focused browser workspace for people who want a real **three-way tab split** instead of a single active page. The desktop application keeps live Chromium webviews alive in a parking layer, maps them to persistent pane slots, and lets the focused pane drive navigation controls.
 
-**(Urban Dictionary + GitHub) × FED-OS × fedpromptly**
+## What is included
 
-Welcome to the block. This is the front door of the FED-EDU organization — the educational wing of the FED-OS / fedpromptly ecosystem, built for every kind of Black man across the globe: the Jamaicans, the Haitians, the Africans, the Americans, the British; the young brothers and the elders; the incarcerated and returning citizens; the gay and trans brothers; the kid with his first bike and the man on his second chance. All Black men. All builders.
+- Electron desktop shell with 1-, 2-, and 3-pane layouts, draggable dividers, parked tabs, exact 3→1→3 restoration, and persistent local state.
+- Four built-in Manifest V3 extensions: **ad-blocker**, **dark-reader**, **fed-gram**, and **page-info**.
+- Extension manager with built-in and unpacked extension discovery, enable/disable state, removal of user extensions, reload, and packaged-build path handling.
+- Global mute-by-default controller with per-origin whitelist storage.
+- Tauri mobile renderer with the same three-pane model, draggable dividers, persistent tab IDs, and a WebKit-compatible audio-policy boundary.
+- GitHub Actions build matrix for Electron desktop artifacts and the Tauri frontend.
+- GitHub Pages landing page, support page, campaign artwork, browser themes, icon sets, and the historical extension/source material supplied with earlier project revisions.
 
-## What We Do
+## Run the desktop prototype
 
-We translate AI, coding, and tech into plain street terms so true beginners can grow naturally — build real projects, ship real products, and get paid without permission from any gatekeeper. Tech is real-life Minecraft: pick what you love, build what you want, don't ask if it's been done.
+```bash
+cd electron
+npm ci
+npm test
+npm start
+```
 
-## Where To Start
+The smoke test must report `TESTS:PASS 27/27`.
 
-| You are... | Go... |
-|---|---|
-| Brand new | `wiki/First-Steps/` in the main repo |
-| Phone-only | `courses-and-guides/01-easytether-mastery/` |
-| Into music / ball / design / streaming | `sandbox-blueprints/` |
-| Ready to charge | `hustle-index/` + `PRICING.md` |
-| Just looking for brothers | Discussions → Spawn Zone |
+## Run the Tauri frontend
 
-## The Ground Rules
+```bash
+cd tauri
+npm ci
+npm run build
+```
 
-1. No question is stupid — walk every brother through everything
-2. No jargon without translation
-3. Celebrate the attempts — first push gets the same dap as first ship
-4. Zero tolerance for gatekeeping
-5. Ownership stays with the builders
-6. Protect the younger brothers — no exceptions, no appeals
+Native iOS and Android packages require the platform toolchains and signing configuration described in `docs/BUILD.md` and `docs/SURF_FED_TAURI_FEASIBILITY_STUDY.md`.
 
-Full rules: `CODE_OF_CONDUCT.md`. How the block is run: `GOVERNANCE.md`.
+## Extension management
 
-## The Repos
+The four built-ins live in `electron/extensions/builtin/` and run in the persistent `persist:surf-fed` Chromium session. Open **Extensions** in the desktop toolbar to reload built-ins, load an unpacked third-party extension, enable or disable an extension, remove a user extension, or open the user extension folder. Built-in extension load failures remain fatal at startup; unchecked extension errors are not suppressed.
 
-- **fed-edu** — the main repo: manifesto, dashboard, courses, blueprints, wiki, everything
-- **fed-comm-dm** — the custom DM system (when it spins out)
-- Brother forks and ships live under their own names — that's the whole point
+Tauri uses WebKit and therefore does not claim arbitrary Chrome extension compatibility. Its equivalent capabilities are implemented as renderer/native features instead.
 
-## Fuel The Block
+## Repository map
 
-<a href='https://ko-fi.com/YOUR_USERNAME' target='_blank'>
-    <img height='36' style='border:0px;height:36px;' src='https://ko-fi.com/img/githubbutton_sm.svg' border='0' alt='Buy Me a Coffee at ko-fi.com' />
-</a>
+- `electron/`: desktop application, extension runtime, audio controller, icons, and tests.
+- `tauri/`: mobile renderer and Rust/Tauri configuration.
+- `docs/`: build, deployment, extension, migration, and feasibility notes.
+- `docs/legacy/`: source notes and snapshots from supplied earlier project variants.
+- `electron/assets/`: merged application icon set and UI icons.
+- `assets/themes/`: browser theme artwork from the supplied project revisions.
+- `tools/legacy/`: preserved archive-generation and support-verification utilities.
+- `.github/`: issue templates, contribution guidance, funding, and CI workflow.
+- `NON_NEGOTIABLES.md`: acceptance criteria that take priority over convenience.
 
-Every contribution buys refurbished desktops for raffles and data plans for brothers learning on tethered phones.
+## Verification
 
----
+```bash
+cd electron && npm test
+cd ../tauri && npm run build
+```
 
-**We've done it before with everything else we touched. We're doing it again with tech.**
+## Support
+
+Surf FED is supported through [GitHub Sponsors](https://github.com/sponsors/FED-OS), [Ko-fi](https://ko-fi.com/fedpromptly), [Patreon](https://patreon.com/fedpromptly), and [Buy Me a Coffee](https://www.buymeacoffee.com/fedpromptly).
+
+Contact: careers@fedpromptly.com · support@fedpromptly.com · business@fedpromptly.com · contact@fedpromptly.com
+
+## FED-EDU web and mobile layer
+
+The requested FED-EDU app structure has been added without replacing the Surf FED browser. `apps/web/` is a React + Vite PWA shell with learning, community, dictionary, blueprint, profile, and messaging routes. `apps/mobile/` contains the Capacitor configuration for packaging the shared web build. Shared package placeholders, Supabase migrations, product/security/mobile documentation, and four mute-all-tabs promotional images are included.
+
+```bash
+cd apps/web
+npm install
+npm run dev
+npm run build
+```
+
+The FED-EDU messaging screen is deliberately a scaffold until authentication, server-side authorization, key management, abuse prevention, reporting, account recovery, and rate limiting are configured.
